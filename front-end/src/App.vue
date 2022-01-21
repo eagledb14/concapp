@@ -1,14 +1,17 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+
+    <div class="p-6 bg-green-500 rounded-b-lg flex justify-evenly">
+      <router-link to="/" class="rounded hover:bg-white text-xl p-2"> Home </router-link>
+      <router-link to="/dashboard" class="rounded hover:bg-white text-xl p-2" > Login </router-link>
     </div>
-    <router-view/>
-  </div> -->
+
+    <div class="flex justify-around">
+      <router-view/>
+    </div>
+
   </div>
 </template>
-
 <style>
 
 * {
@@ -17,7 +20,7 @@
   box-sizing: border-box;
 }
 
-#app {
+/* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -36,5 +39,5 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>
