@@ -7,7 +7,7 @@
         <input placeholder="password" type="password" v-model="password" class="p-1 rounded">
       </fieldset>
       <fieldset>
-        <button class="mt-3 p-2 hover:bg-white rounded">Submit</button>
+        <button @click="test" class="mt-3 p-2 hover:bg-white rounded">Submit</button>
       </fieldset>
     </form>
 
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
   name: 'Login',
@@ -30,6 +31,14 @@ export default {
   methods: {
     switchComponent () {
       this.$emit('change-component', 'Register')
+    },
+    async test () {
+      try {
+        const response = await axios.get('/api/')
+        console.log(response.data)
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }

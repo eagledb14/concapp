@@ -1,6 +1,6 @@
 <template>
     <div id="Dashboard" >
-      <h1 v-if="user"> Temporary holding text</h1>
+      <h1 v-if="user"> {{user.firstName}}, Thank you for registering</h1>
       <component :is="selectedComponent" @change-component="switchComponent" v-else></component>
     </div>
 </template>

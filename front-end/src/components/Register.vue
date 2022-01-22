@@ -10,8 +10,11 @@
         <input placeholder="username" v-model="username" class="p-1 mr-2 rounded">
         <input placeholder="password" type="password" v-model="password" class="p-1 rounded">
       </fieldset>
+      <fieldset class="pt-2 text-red-500 break-words">
+      <p>{{ error }} </p>
+      </fieldset>
       <fieldset>
-        <button class="mt-3 p-2 hover:bg-white rounded">Submit</button>
+        <button @click="register()" class="mt-3 p-2 hover:bg-white rounded">Submit</button>
       </fieldset>
     </form>
 
@@ -22,6 +25,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Register',
   data () {
@@ -29,13 +34,48 @@ export default {
       firstName: '',
       lastName: '',
       username: '',
-      password: ''
+      password: '',
+      error: ''
     }
   },
   methods: {
     switchComponent () {
       this.$emit('change-component', 'Login')
+    },
+    async register () {
+      this.error = ''
+
+      if (!this.username) {
+        this.error = 'missing username'
+      } else if (!this.password) {
+        this.error = 'missing password'
+      } else if (!this.firstName) {
+        this.error = 'missing first name'
+      } else if (!this.lastName) {
+        this.error = 'missing last name'
+      }
+
+      if (this.error !== '') {
+        return
+      }
+
+      try {
+        const response = await axios.post('/api/users', {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          username: this.username,
+          password: this.password
+        })
+
+        this.$root.$data.user = response.data.user
+      } catch (e) {
+        this.error = e.response.data.message
+        this.$root.$data.user = null
+      }
     }
+  },
+  created () {
+    this.error = ''
   }
 }
 </script>
