@@ -18,5 +18,11 @@ This is web app will be created for BYU concessions inventory purposes. It will 
 
 
 ## Setup
-Not yet applicable
 
+### Front-end
+- cd front-end
+- npm run serve or npm run build
+
+### Back-end
+- cd back-end
+- node server.js
