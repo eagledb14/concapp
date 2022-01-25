@@ -1,5 +1,5 @@
 <template>
-    <div id="Dashboard" >
+    <div id="Dashboard" class="flex justify-around">
       <h1 v-if="user"> {{user.firstName}}, Thank you for registering</h1>
       <component :is="selectedComponent" @change-component="switchComponent" v-else></component>
     </div>

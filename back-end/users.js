@@ -190,6 +190,28 @@ router.post('/login', async (req, res) => {
     }
 })
 
+//update stands list
+router.post('/stands/:id', async (req, res) => {
+    try {
+        const user = await User.findOne({
+            _id: req.params.id
+        })
+
+        user.updateOne({
+            standsList: req.body.standsList
+        })
+
+        res.sendStatus(200, {
+            user: user
+        })
+    }
+    catch (e) {
+        console.log(e)
+        return res.sendStatus(500, {
+            message: "user not found"
+        })
+    }
+})
 
 //get logged in user
 router.get('/', validUser, async (req, res) => {
@@ -204,10 +226,20 @@ router.get('/', validUser, async (req, res) => {
     }
 })
 
-
 //get all users
-router.get('/all', async (req, res) => {
+router.get('/all/:id', async (req, res) => {
     try {
+        const admin = await User.findOne({
+            _id: req.params.id
+        })
+        console.log(`user: ${admin.username} has requested the registered users list`)
+
+        if (!admin.admin) {
+            return res.send(405, {
+                message: 'user not authorized to perform action'
+            })
+        }
+
         const users = await User.find()
         res.send({
             users: users

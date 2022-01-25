@@ -10,7 +10,7 @@
       <p>{{ error }} </p>
       </fieldset>
       <fieldset>
-        <button @click="login" class="mt-3 p-2 hover:bg-white rounded">Submit</button>
+        <button type="submit" @click="login" class="mt-3 p-2 hover:bg-white rounded">Submit</button>
       </fieldset>
     </form>
 

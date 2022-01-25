@@ -14,7 +14,7 @@
       <p>{{ error }} </p>
       </fieldset>
       <fieldset>
-        <button @click="register()" class="mt-3 p-2 hover:bg-white rounded">Submit</button>
+        <button type="submit" @click="register()" class="mt-3 p-2 hover:bg-white rounded">Submit</button>
       </fieldset>
     </form>
 

@@ -7,7 +7,7 @@
       <router-link v-else to="/Dashboard" class="rounded hover:bg-white text-xl p-2" > Login </router-link>
     </div>
 
-    <div class="flex justify-around">
+    <div class="pt-10">
       <router-view/>
     </div>
 
