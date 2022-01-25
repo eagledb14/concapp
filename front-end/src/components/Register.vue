@@ -71,6 +71,7 @@ export default {
       } catch (e) {
         this.error = e.response.data.message
         this.$root.$data.user = null
+        console.log(e)
       }
     }
   },

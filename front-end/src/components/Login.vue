@@ -6,8 +6,11 @@
         <input placeholder="username" v-model="username" class="p-1 mr-2 rounded">
         <input placeholder="password" type="password" v-model="password" class="p-1 rounded">
       </fieldset>
+      <fieldset class="pt-2 text-red-500 break-words">
+      <p>{{ error }} </p>
+      </fieldset>
       <fieldset>
-        <button @click="test" class="mt-3 p-2 hover:bg-white rounded">Submit</button>
+        <button @click="login" class="mt-3 p-2 hover:bg-white rounded">Submit</button>
       </fieldset>
     </form>
 
@@ -25,7 +28,8 @@ export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      error: ''
     }
   },
   methods: {
@@ -37,6 +41,30 @@ export default {
         const response = await axios.get('/api/')
         console.log(response.data)
       } catch (e) {
+        console.log(e)
+      }
+    },
+    async login () {
+      this.error = ''
+      if (!this.username) {
+        this.error = 'missing username'
+      } else if (!this.password) {
+        this.error = 'missing password'
+      }
+      if (this.error !== '') {
+        return
+      }
+
+      try {
+        const response = await axios.post('/api/users/login', {
+          username: this.username,
+          password: this.password
+        })
+
+        this.$root.$data.user = response.data.user
+      } catch (e) {
+        this.$root.$data.user = null
+        this.error = e.response.data.message
         console.log(e)
       }
     }
