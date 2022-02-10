@@ -8,7 +8,7 @@
       </form>
 
       <div v-if="isAdmin">
-        <Stands />
+        <Assignments />
         <!-- theres gonna be a component here or something -->
         something here
       </div>
@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import Stands from '@/components/Stands.vue'
+import Assignments from '@/components/Assignments.vue'
 
 export default {
   name: 'Settings',
   components: {
-    Stands
+    Assignments
   },
   computed: {
     isAdmin () {

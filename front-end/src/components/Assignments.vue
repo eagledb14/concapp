@@ -1,5 +1,5 @@
 <template>
-  <div id="Stands" class="flex justify-around bg-green-500 sm:mx-4 md:mx-10 xl:mx-72 rounded-lg">
+  <div id="Assignments" class="flex justify-around bg-green-500 sm:mx-4 md:mx-10 xl:mx-72 rounded-lg">
     <div>
       <div v-for="user in userList" :key="user.firstName">
         <p>{{user.firstName}} {{user.lastName}}</p>
@@ -17,7 +17,7 @@
 import axios from 'axios'
 
 export default ({
-  name: 'Stands',
+  name: 'Assignments',
   data () {
     return {
       userList: [],
