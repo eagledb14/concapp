@@ -41,5 +41,8 @@ app.get("/api/", (req, res) => {
 const users = require("./users.js")
 app.use("/api/users", users.routes)
 
+const products = require("./product.js")
+app.use("/api/product", products.routes)
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`))

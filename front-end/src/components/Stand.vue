@@ -1,12 +1,12 @@
 <template>
     <div id="Stand">
 
-      <div v-if="standsList.length > 0">
-        <select v-model="selectedStand">
+      <div class="flex flex-col justify-center items-center" v-if="standsList.length > 0">
+        <h1 class="m-2 font-bold">Stand: {{selectedStand}}</h1>
+        <select class="m-2 px-5" v-model="selectedStand">
           <option v-for="stand in standsList" v-bind:key="stand">{{ stand }}</option>
         </select>
-
-        <Stock :products="productList"/>
+        <Stock class="flex justify-center" :standName="selectedStand" :products="productList"/>
       </div>
       <div v-else>
         <h1> You have not been assigned any stands</h1>
@@ -31,20 +31,10 @@ export default ({
       productList: ['ham', 'cheese', 'onions']
     }
   },
-  watch: {
-    selectedStand: function () {
-      this.productList.push('a')
-      // this will grab the stand information from the server
-      console.log('stand changed')
-    }
-  },
   created () {
     if (this.standsList.length > 0) {
       this.selectedStand = this.standsList[0]
     }
-  },
-  beforeDestroy () {
-    console.log('destroyed Stand')
   }
 })
 </script>
