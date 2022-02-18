@@ -3,25 +3,35 @@
     <div>
       <div v-for="user in userList" :key="user.firstName">
         <p>{{user.firstName}} {{user.lastName}}</p>
+          <draggable class="p-10 border-2 border-green-700 bg-green-100 m-1" :sort="false" :list="user.standsList" group="all-stands">
+            <div class="m-1" v-for="stand in user.standsList" :key="stand">
+            {{stand}}
+            </div>
+          </draggable>
       </div>
     </div>
-    <div>
-      <div v-for="stand in standList" :key="stand">
-        {{stand}}
-      </div>
-    </div>
+      <draggable class="p-10 border-2 border-green-700 bg-green-100 m-1" :sort="false" :list="standsList" group="all-stands" >
+        <div class="m-1" v-for="stand in standsList" :key="stand">
+          {{stand}}
+        </div>
+      </draggable>
+    <button @click="updateUserStands(); updateControlStands()">Update</button>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Draggable from 'vuedraggable'
 
 export default ({
   name: 'Assignments',
+  components: {
+    Draggable
+  },
   data () {
     return {
       userList: [],
-      standList: []
+      standsList: []
     }
   },
   methods: {
@@ -32,10 +42,43 @@ export default ({
       } catch (e) {
         console.log(e.response.data.message)
       }
+    },
+    async getStandsList () {
+      try {
+        const response = await axios.get('/api/users/stand')
+        this.standsList = response.data.stands
+      } catch (e) {
+        console.log(e.response.data.message)
+      }
+    },
+    async updateUserStands () {
+      try {
+        await axios.post('/api/users/stand', {
+          userList: this.userList
+        })
+      } catch (e) {
+        console.log(e.response.data.message)
+      }
+    },
+    async updateControlStands () {
+      try {
+        await axios.post('/api/users/stand/control', {
+          standsList: this.standsList
+        })
+      } catch (e) {
+        console.log(e.response.data.message)
+      }
+    },
+    sortUserStands (user) {
+      user.standsList.sort()
+    },
+    sortStands () {
+      this.standsList.sort()
     }
   },
   created () {
     this.getUsers()
+    this.getStandsList()
   }
 })
 </script>

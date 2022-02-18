@@ -10,6 +10,8 @@ This is web app will be created for BYU concessions inventory purposes. It will 
 - Frontend
 	- Vue.js v4.5.15
 	- tailwind v3.0.15
+	- axios
+	- [Vue.Draggable](https://github.com/SortableJS/Vue.Draggable)
 - Backend
 	- nodejs v16.13.0
 	- express 

@@ -1,7 +1,6 @@
 <template>
     <div id="Stand">
-
-      <div class="flex flex-col justify-center items-center" v-if="standsList.length > 0">
+      <div class="flex flex-col justify-center items-center" v-if="standsList && standsList.length > 0">
         <h1 class="m-2 font-bold">Stand: {{selectedStand}}</h1>
         <select class="m-2 px-5" v-model="selectedStand">
           <option v-for="stand in standsList" v-bind:key="stand">{{ stand }}</option>
@@ -32,7 +31,8 @@ export default ({
     }
   },
   created () {
-    if (this.standsList.length > 0) {
+    // console.log(this.standsList)
+    if (this.standsList) {
       this.selectedStand = this.standsList[0]
     }
   }

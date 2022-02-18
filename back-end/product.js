@@ -1,4 +1,3 @@
-const e = require('express');
 const express = require('express')
 const mongoose = require('mongoose')
 
@@ -33,11 +32,7 @@ async function createProductEntries(body) {
     let date = new Date;
     let todayString = date.getDateAsString();
 
-    let products = await Product.findOne({
-        user: body.user,
-        stand: body.stand,
-        date: todayString
-    })
+    let products = await Product.findById(body._id);
 
     if (products) {
         await products.updateOne({

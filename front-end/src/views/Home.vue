@@ -13,11 +13,25 @@
 
 <script>
 import Stand from '@/components/Stand.vue'
+import axios from 'axios'
 
 export default {
   name: 'Home',
   components: {
     Stand
+  },
+  methods: {
+    async updateUserStands () {
+      if (!this.$root.$data.user) {
+        return
+      }
+      try {
+        const response = await axios.get('/api/users/stand/' + this.$root.$data.user._id)
+        this.$root.$data.user.standsList = response.data.standsList
+      } catch (e) {
+        console.log(e.response.data.message)
+      }
+    }
   },
   computed: {
     user () {
@@ -27,9 +41,12 @@ export default {
       return this.$root.$data.user.firstName
     },
     getStandsList () {
-      // return this.$root.$data.user.standsList
-      return ['a', 'b', 'c']
+      return this.$root.$data.user.standsList
+      // return ['a', 'b', 'c']
     }
+  },
+  created () {
+    this.updateUserStands()
   }
 }
 </script>

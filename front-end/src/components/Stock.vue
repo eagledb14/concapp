@@ -43,7 +43,7 @@ export default ({
   methods: {
     async sendItems (standName) {
       try {
-        const response = await axios.put('/api/product', {
+        await axios.put('/api/product', {
           user: this.getUsersName,
           stand: standName,
           products: this.products,
@@ -52,7 +52,6 @@ export default ({
           out: this.transferOutCount,
           final: this.finalCount
         })
-        console.log(response)
       } catch (e) {
         console.log(e.response.data.message)
       }

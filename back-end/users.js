@@ -2,6 +2,10 @@ const express = require('express')
 const mongoose = require('mongoose')
 const argon2 = require('argon2')
 
+const fs = require('fs')
+const standsFileName = "./stands.json"
+let standsList = require(standsFileName)
+
 
 const router = express.Router()
 
@@ -197,8 +201,11 @@ router.post('/stands/:id', async (req, res) => {
             _id: req.params.id
         })
 
+        let list = req.body.standsList
+        list.sort()
+
         user.updateOne({
-            standsList: req.body.standsList
+            standsList: list
         })
 
         res.sendStatus(200, {
@@ -222,7 +229,9 @@ router.get('/', validUser, async (req, res) => {
     }
     catch (e) {
         console.log(e)
-        return res.sendStatus(500)
+        return res.status(500).send({
+            message: "Error: invalid User"
+        })
     }
 })
 
@@ -263,6 +272,83 @@ router.delete('/', validUser, async (req, res) => {
         return res.sendStatus(500)
     }
 })
+
+//get stands list
+router.get('/stand', async (req, res) => {
+    try {
+        standsList = require(standsFileName)
+        res.send({
+            stands: standsList.standsList            
+        })
+    }
+    catch (e)
+    {
+        console.log(e)
+    }
+})
+
+//update users stand list
+router.post('/stand', async (req, res) => {
+    try {
+        const users = req.body.userList;
+
+        for (let i = 0; i < users.length; i++) {
+            let user = await User.findById(users[i]._id)
+
+            if (user) {
+                await user.updateOne({
+                    standsList: users[i].standsList
+                })
+            }
+
+            await user.save();
+        }
+
+        res.sendStatus(200);
+    }
+    catch (e) {
+        console.log(e)
+        return res.sendStatus(500);
+    }
+})
+
+//gets a single users stands
+router.get('/stand/:id', async (req, res) => {
+    try {
+        let user = await User.findById(req.params.id);
+
+        res.status(200).send({
+            standsList: user.standsList
+        })
+    }
+    catch (e) {
+        console.log(e)
+        return res.sendStatus(500);
+    }
+})
+
+//update control stand list
+router.post('/stand/control', async (req, res) => {
+    try {
+        standsList.standsList = req.body.standsList
+        standsList.standsList.sort()
+        await fs.writeFile(standsFileName, JSON.stringify(standsList), (e) => {
+            if (e) {
+                console.log(e)
+                return
+            }
+            console.log(`Updating standsList: ${standsList.standsList}`)
+        })
+        res.sendStatus(200);
+
+    }
+    catch (e) {
+        console.log(e)
+        return res.sendStatus(500)
+    }
+})
+
+
 
 
 //try and refactor later to have a better hierarchy and database functionality
