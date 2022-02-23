@@ -1,21 +1,25 @@
 <template>
-  <div id="Assignments" class="flex justify-around bg-green-500 sm:mx-4 md:mx-10 xl:mx-72 rounded-lg">
-    <div>
-      <div v-for="user in userList" :key="user.firstName">
-        <p>{{user.firstName}} {{user.lastName}}</p>
-          <draggable class="p-10 border-2 border-green-700 bg-green-100 m-1" :sort="false" :list="user.standsList" group="all-stands">
-            <div class="m-1" v-for="stand in user.standsList" :key="stand">
-            {{stand}}
-            </div>
-          </draggable>
-      </div>
-    </div>
-      <draggable class="p-10 border-2 border-green-700 bg-green-100 m-1" :sort="false" :list="standsList" group="all-stands" >
-        <div class="m-1" v-for="stand in standsList" :key="stand">
-          {{stand}}
+  <div id="Assignments" >
+    <div class="flex justify-around bg-green-500 sm:mx-4 md:mx-10 xl:mx-72 rounded-lg">
+      <div>
+        <div v-for="user in userList" :key="user.username">
+          <p>{{user.firstName}} {{user.lastName}}</p>
+            <draggable class="p-10 border-2 border-green-700 bg-green-100 m-1" :sort="false" :list="user.standsList" group="all-stands">
+              <div class="m-1" v-for="stand in user.standsList" :key="stand">
+              {{stand}}
+              </div>
+            </draggable>
         </div>
-      </draggable>
-    <button @click="updateUserStands(); updateControlStands()">Update</button>
+      </div>
+        <draggable class="p-10 border-2 border-green-700 bg-green-100 m-1" :sort="false" :list="standsList" group="all-stands" >
+          <div class="m-1" v-for="stand in standsList" :key="stand">
+            {{stand}}
+          </div>
+        </draggable>
+    </div>
+    <div class="flex justify-center">
+      <button class="mt-2 p-2 bg-green-500 rounded " @click="updateUserStands(); updateControlStands()">Update</button>
+    </div>
   </div>
 </template>
 

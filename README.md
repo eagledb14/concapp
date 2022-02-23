@@ -12,6 +12,7 @@ This is web app will be created for BYU concessions inventory purposes. It will 
 	- tailwind v3.0.15
 	- axios
 	- [Vue.Draggable](https://github.com/SortableJS/Vue.Draggable)
+	-[Vue.js toggle/switch button](https://www.npmjs.com/package/vue-js-toggle-button)
 - Backend
 	- nodejs v16.13.0
 	- express 

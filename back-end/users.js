@@ -213,10 +213,8 @@ router.post('/stands/:id', async (req, res) => {
         })
     }
     catch (e) {
-        console.log(e)
-        return res.sendStatus(500, {
-            message: "user not found"
-        })
+            console.log(e)
+            res.status(500).body("user not found")
     }
 })
 
@@ -255,6 +253,45 @@ router.get('/all/:id', async (req, res) => {
         })
     }
     catch (e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+})
+
+router.post('/admin/:id', async (req, res) => {
+    try {
+        const admin = await User.findById(req.params.id)
+        const user = await User.findById(req.body.user);
+        const adminStatus = !user.admin
+
+        if (!admin || !admin.admin) {
+            return res.status(500).send({
+                message: "Error: send valid admin account"
+            })
+        }
+
+        if (!user) {
+            return res.sendStatus(500).send({
+                message: "Error: user not found"
+            })
+        }
+
+        if (adminStatus) {
+            console.log(`Admin: ${admin.username} has given user ${user.username} admin access`)
+        }
+        else if (!adminStatus) {
+            console.log(`Admin: ${admin.username} has taken user ${user.username}'s admin access`)
+        }
+        
+        await user.updateOne({
+            admin: adminStatus
+        });
+
+        // await user.save()
+
+        res.sendStatus(200)
+    }
+    catch(e) {
         console.log(e)
         res.sendStatus(500)
     }

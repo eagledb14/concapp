@@ -3,8 +3,8 @@
     <form class="mt-12 p-16 bg-green-500 rounded-lg">
       <fieldset>
         <legend class="align-center text-lg" >Login</legend>
-        <input placeholder="username" v-model="username" class="p-1 mr-2 rounded">
-        <input placeholder="password" type="password" v-model="password" class="p-1 rounded">
+        <input placeholder="username" v-model="username" class="m-1 p-1 mr-2 rounded">
+        <input placeholder="password" type="password" v-model="password" class="m-1 p-1 rounded">
       </fieldset>
       <fieldset class="pt-2 text-red-500 break-words">
       <p>{{ error }} </p>
