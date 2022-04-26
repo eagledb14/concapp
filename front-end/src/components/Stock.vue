@@ -1,21 +1,23 @@
 <template>
-  <div id="Stock">
+  <div id="Stock" class="flex-column">
 
     <table class="table-auto border-collapse">
-      <tr>
+      <tr class="m-5">
         <th>Product</th>
-        <th>Before game</th>
-        <th>Transfer in</th>
-        <th>Transfer out</th>
-        <th>Final Count</th>
+        <th>Unit</th>
+        <th>Current Stock</th>
+        <th>Amount Requested</th>
       </tr>
 
       <tr v-for="product in products" :key="product">
-        <td>{{product}}</td>
-        <td><input class="text-center" type="text" v-model="beforeGameCount[products.indexOf(product)]"></td>
+        <td class="text-center m-5">{{product}}</td>
+        <td class="text-center"> {{ units[products.indexOf(product)] }}</td>
+        <!-- <td><input class="text-center" type="text" v-model="beforeGameCount[products.indexOf(product)]"></td>
         <td><input class="text-center" type="text" v-model="transferInCount[products.indexOf(product)]"></td>
         <td><input class="text-center" type="text" v-model="transferOutCount[products.indexOf(product)]"></td>
-        <td><input class="text-center" type="text" v-model="finalCount[products.indexOf(product)]"></td>
+        <td><input class="text-center" type="text" v-model="finalCount[products.indexOf(product)]"></td> -->
+        <td><input class="text-center" type="number" v-model="current[products.indexOf(product)]"></td>
+        <td><input class="text-center" type="number" v-model="requested[products.indexOf(product)]"></td>
       </tr>
     </table>
     <button @click="sendItems(standName)">Submit</button>
@@ -29,15 +31,14 @@ export default ({
   name: 'Stock',
   props: {
     standName: String,
-    products: Array
+    products: Array,
+    units: Array
   },
   data () {
     return {
       oldStand: '',
-      beforeGameCount: [],
-      transferInCount: [],
-      transferOutCount: [],
-      finalCount: []
+      current: [],
+      requested: []
     }
   },
   methods: {
@@ -47,10 +48,8 @@ export default ({
           user: this.getUsersName,
           stand: standName,
           products: this.products,
-          before: this.beforeGameCount,
-          in: this.transferInCount,
-          out: this.transferOutCount,
-          final: this.finalCount
+          current: this.current,
+          requested: this.requested
         })
       } catch (e) {
         console.log(e.response.data.message)
@@ -63,16 +62,12 @@ export default ({
           stand: this.standName
         })
 
-        this.beforeGameCount = []
-        this.transferInCount = []
-        this.transferOutCount = []
-        this.finalCount = []
+        this.current = []
+        this.requested = []
 
         if (response.data) {
-          this.beforeGameCount = response.data.before
-          this.transferInCount = response.data.in
-          this.transferOutCount = response.data.out
-          this.finalCount = response.data.final
+          this.current = response.data.current
+          this.requested = response.data.requested
         }
       } catch (e) {
         console.log(e.response.data.message)

@@ -5,7 +5,7 @@
         <select class="m-2 px-5" v-model="selectedStand">
           <option v-for="stand in standsList" v-bind:key="stand">{{ stand }}</option>
         </select>
-        <Stock class="flex justify-center" :standName="selectedStand" :products="productList"/>
+        <Stock class="flex justify-center" :standName="selectedStand" :products="productList" :units="unitList" />
       </div>
       <div v-else>
         <h1> You have not been assigned any stands</h1>
@@ -27,11 +27,11 @@ export default ({
   data () {
     return {
       selectedStand: '',
-      productList: ['ham', 'cheese', 'onions']
+      productList: ['ham', 'cheese', 'onions'],
+      unitList: ['bib', 'bag', 'porple']
     }
   },
   created () {
-    // console.log(this.standsList)
     if (this.standsList) {
       this.selectedStand = this.standsList[0]
     }
