@@ -17,6 +17,7 @@ This is web app will be created for BYU concessions inventory purposes. It will 
 - Backend
 	- nodejs v16.13.0
 	- express 
+	- xlsx
 - Database
 	- mongodb
 
