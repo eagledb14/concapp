@@ -8,10 +8,8 @@ const productSchema = new mongoose.Schema({
     user: String,
     stand: String,
     productName: [String],
-    before: [String],
-    in: [String],
-    out: [String],
-    final: [String],
+    current: [String],
+    requested: [String],
     date: String
 })
 
@@ -26,7 +24,6 @@ Date.prototype.getDateAsString = function() {
 };
 
 //create new product
-
 async function createProductEntries(body) {
 
     let date = new Date;
@@ -37,10 +34,8 @@ async function createProductEntries(body) {
     if (products) {
         await products.updateOne({
             productName: body.products,
-            before: body.before,
-            in: body.in,
-            out: body.out,
-            final: body.final,
+            current: body.current,
+            requested: body.requested,
         })
         console.log(`user: ${body.user} has updated stand ${body.stand}`)
     }
@@ -49,10 +44,8 @@ async function createProductEntries(body) {
             user: body.user,
             stand: body.stand,
             productName: body.products,
-            before: body.before,
-            in: body.in,
-            out: body.out,
-            final: body.final,
+            current: body.current,
+            requested: body.requested,
             date: todayString
         })
         console.log(`user: ${body.user} has added an entry for stand ${body.stand} on ${todayString}`)
@@ -111,10 +104,8 @@ router.post('/', async (req, res) => {
         if (products) {
             return res.send({
                 productName: products.productName,
-                before: products.before,
-                in: products.in,
-                out: products.out,
-                final: products.final,
+                current: products.current,
+                requested: products.requested,
             })
         }
         else {
