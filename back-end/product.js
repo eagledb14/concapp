@@ -117,6 +117,22 @@ router.post('/', async (req, res) => {
     }
 })
 
+//get all stand information
+router.get('/:admin', async (req, res) => {
+    console.log("Stands information requested")
+    if (req.params.admin == false) {
+        res.send("Error, user not admin status")
+    }
+
+    const products = await Product.find()
+
+    res.send({
+        products: products
+    })
+
+    // console.log(products)
+})
+
 module.exports = {
     routes: router,
     mode: URLSearchParams
