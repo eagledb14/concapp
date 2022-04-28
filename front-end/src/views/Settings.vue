@@ -10,7 +10,7 @@
         <div class="flex justify-around items-center">
           <button @click="switchComponent('AccountSettings')">Account Settings</button>
           <button v-if="isAdmin" @click="switchComponent('Assignments')">Stand Assignments</button>
-          <button v-if="isAdmin" @click="switchComponent('Admin')">Admin Accounts</button>
+          <button v-if="isAdmin" @click="switchComponent('Request')">View Requests</button>
         </div>
       </div>
       <div class="p-2 bg-gray-300">
@@ -27,14 +27,16 @@
 </template>
 
 <script>
+import AccountSettings from '@/components/AccountSettings.vue'
 import Assignments from '@/components/Assignments.vue'
-import Admin from '@/components/Admin.vue'
+import Request from '@/components/Request.vue'
 
 export default {
   name: 'Settings',
   components: {
+    AccountSettings,
     Assignments,
-    Admin
+    Request
   },
   data () {
     return {
