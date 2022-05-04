@@ -65,7 +65,7 @@ export default ({
         this.current = []
         this.requested = []
 
-        if (response.data) {
+        if (response.data !== 'OK' && response.data !== 'Created') {
           this.current = response.data.current
           this.requested = response.data.requested
         }

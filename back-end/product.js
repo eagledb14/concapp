@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 
 const router = express.Router()
 
-
 const productSchema = new mongoose.Schema({
     user: String,
     stand: String,
@@ -21,37 +20,6 @@ Date.prototype.getDateAsString = function() {
     var dd = this.getDate().toString();
   
     return [this.getFullYear(), '/', mm.length===2 ? '' : '0', mm, '/', dd.length===2 ? '' : '0', dd].join('');
-};
-
-//create new product
-async function createProductEntries(body) {
-
-    let date = new Date;
-    let todayString = date.getDateAsString();
-
-    let products = await Product.findById(body._id);
-
-    if (products) {
-        await products.updateOne({
-            productName: body.products,
-            current: body.current,
-            requested: body.requested,
-        })
-        console.log(`user: ${body.user} has updated stand ${body.stand}`)
-    }
-    else {
-        products = await new Product({
-            user: body.user,
-            stand: body.stand,
-            productName: body.products,
-            current: body.current,
-            requested: body.requested,
-            date: todayString
-        })
-        console.log(`user: ${body.user} has added an entry for stand ${body.stand} on ${todayString}`)
-    }
-
-    await products.save();
 }
 
 // creating or updating new product list for the date
@@ -68,7 +36,7 @@ router.put('/', async (req, res) => {
     }
 
     try {
-        await createProductEntries(req.body, res);
+        await updateIfExistsOrCreate(req.body, res);
         res.sendStatus(200)
     }
     catch (e) {
@@ -76,7 +44,47 @@ router.put('/', async (req, res) => {
     }
 })
 
-// getting stand products list, if the exist
+//update product if exists, else create a new one
+async function updateIfExistsOrCreate(body) {
+
+    let products = await Product.findOne({
+        stand: body.stand
+    })
+
+    if (products) {
+        console.log(products)
+        await products.updateOne({
+            productName: body.products,
+            current: body.current,
+            requested: body.requested,
+        })
+        console.log(`user: ${body.user} has updated stand ${body.stand}`)
+    }
+    else {
+        products = await createProduct(body)
+    }
+
+    await products.save()
+}
+
+//creates a new product
+async function createProduct(body) {
+    let date = new Date;
+    let todayString = date.getDateAsString();
+
+    let products = await new Product({
+        user: body.user,
+        stand: body.stand,
+        productName: body.products,
+        current: body.current,
+        requested: body.requested,
+        date: todayString
+    })
+    console.log(`user: ${body.user} has added an entry for stand ${body.stand} on ${todayString}`)
+    return products
+}
+
+// getting stand products list, if they exist
 router.post('/', async (req, res) => {
     if (!req.body.user) {
         return res.status(400).send({
@@ -95,10 +103,9 @@ router.post('/', async (req, res) => {
     let todayString = date.getDateAsString();
 
     try {
+        // const products = await Product.findById(req.body.id)
         const products = await Product.findOne({
-            user: req.body.user,
-            stand: req.body.stand,
-            date: todayString
+            stand: req.body.stand
         })
 
         if (products) {
@@ -109,7 +116,7 @@ router.post('/', async (req, res) => {
             })
         }
         else {
-            res.sendStatus(201);
+            res.sendStatus(201)
         }        
     }
     catch (e) {
@@ -125,6 +132,8 @@ router.get('/:admin', async (req, res) => {
     }
 
     const products = await Product.find()
+
+    products.sort((a, b) => a.stand - b.stand)
 
     res.send({
         products: products
