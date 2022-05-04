@@ -47,6 +47,7 @@ export default ({
         await axios.put('/api/product', {
           user: this.getUsersName,
           stand: standName,
+          units: this.units,
           products: this.products,
           current: this.current,
           requested: this.requested

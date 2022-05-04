@@ -12,14 +12,22 @@
 
           <table class="table-auto border-collapse">
             <tr class="m-5">
-              <th>Product</th>
+              <th class="m-5">Product</th>
               <th>Unit</th>
               <th>Current Stock</th>
               <th>Amount Requested</th>
             </tr>
+
+            <tr v-for="unit in stand.productName" :key="unit">
+              <td class="text-center">{{ unit }}</td>
+              <td class="text-center">{{ stand.units[stand.productName.indexOf(unit)] }}</td>
+              <td class="text-center">{{ stand.current[stand.productName.indexOf(unit)] }}</td>
+              <td class="text-center">{{ stand.requested[stand.productName.indexOf(unit)] }}</td>
+            </tr>
+
           </table>
-          <div v-for="product in stand.productName" :key="product">
-          </div>
+          <!-- <div v-for="product in stand.productName" :key="product"> -->
+          <!-- </div> -->
         </div>
       </div>
 

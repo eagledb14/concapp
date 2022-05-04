@@ -6,6 +6,7 @@ const router = express.Router()
 const productSchema = new mongoose.Schema({
     user: String,
     stand: String,
+    units: [String],
     productName: [String],
     current: [String],
     requested: [String],
@@ -74,6 +75,7 @@ async function createProduct(body) {
     let products = await new Product({
         user: body.user,
         stand: body.stand,
+        units: body.units,
         productName: body.products,
         current: body.current,
         requested: body.requested,
@@ -99,7 +101,6 @@ router.post('/', async (req, res) => {
     console.log(`user: ${req.body.user} has requested stand ${req.body.stand}`)
 
     let date = new Date;
-    let todayString = date.getDateAsString();
 
     try {
         // const products = await Product.findById(req.body.id)
