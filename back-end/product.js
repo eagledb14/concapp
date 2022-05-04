@@ -52,7 +52,6 @@ async function updateIfExistsOrCreate(body) {
     })
 
     if (products) {
-        console.log(products)
         await products.updateOne({
             productName: body.products,
             current: body.current,
@@ -133,7 +132,7 @@ router.get('/:admin', async (req, res) => {
 
     const products = await Product.find()
 
-    products.sort((a, b) => a.stand - b.stand)
+    products.sort((a, b) => b.stand - a.stand)
 
     res.send({
         products: products
