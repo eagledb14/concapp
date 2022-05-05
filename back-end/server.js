@@ -44,5 +44,8 @@ app.use("/api/users", users.routes)
 const products = require("./product.js")
 app.use("/api/product", products.routes)
 
+const create = require("./create.js")
+app.use("/api/create", create.routes)
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`))

@@ -29,6 +29,11 @@
         </div>
       </div>
 
+    <form v-on:submit.prevent="uploadFile()">
+      <input type="file" name="standSheet" @change="fileChanged">
+      <button type="submit">Upload</button>
+    </form>
+
     </div>
   </div>
 </template>
@@ -44,10 +49,29 @@ export default ({
     return {
       selectedStand: '',
       standNames: [],
-      standList: []
+      standList: [],
+      file: null
     }
   },
   methods: {
+    fileChanged () {
+      this.file = event.target.files[0]
+    },
+    async uploadFile () {
+      try {
+        const formData = new FormData()
+        formData.append('standSheet', this.file, this.file.name)
+
+        const r1 = await axios.post('/api/create/file', formData)
+        console.log(r1.data.path)
+        const r2 = await axios.post('/api/create', {
+          path: r1.data.path
+        })
+        console.log(r2)
+      } catch (e) {
+        console.log(e)
+      }
+    },
     async getProducts () {
       try {
         const response = await axios.get('/api/product/' + this.$root.$data.user.admin)

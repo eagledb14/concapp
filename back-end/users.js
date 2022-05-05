@@ -240,7 +240,7 @@ router.get('/all/:id', async (req, res) => {
         console.log(`user: ${admin.username} has requested the registered users list`)
 
         if (!admin.admin) {
-            return res.send(405, {
+            return res.status(405).send({
                 message: 'user not authorized to perform action'
             })
         }
