@@ -26,8 +26,6 @@
             </tr>
 
           </table>
-          <!-- <div v-for="product in stand.productName" :key="product"> -->
-          <!-- </div> -->
         </div>
       </div>
 

@@ -58,8 +58,10 @@ async function updateIfExistsOrCreate(body) {
 
     if (products) {
         await products.updateOne({
+            user: body.user,
             productName: body.products,
             current: body.current,
+            units: body.units,
             requested: body.requested,
         })
         console.log(`user: ${body.user} has updated stand ${body.stand}`)

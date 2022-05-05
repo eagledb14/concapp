@@ -374,8 +374,6 @@ router.get('/stand/:id', async (req, res) => {
 //update control stand list
 router.post('/stand/control', async (req, res) => {
     try {
-        // standsList.standsList = req.body.standsList
-        // standsList.standsList.sort()
 
         let updatedStand = req.body.standsList
         standsList = require(standsFileName)

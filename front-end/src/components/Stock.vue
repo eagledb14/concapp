@@ -43,6 +43,10 @@ export default ({
   },
   methods: {
     async sendItems (standName) {
+      if (!standName || standName === '') {
+        return
+      }
+
       try {
         await axios.put('/api/product', {
           user: this.getUsersName,
