@@ -1,26 +1,26 @@
 <template>
-  <div id="Stock" class="flex-column">
+  <div id="Stock">
+    <div>
+      <table class="table-auto border-collapse">
+        <tr class="m-5">
+          <th>Product</th>
+          <th>Unit</th>
+          <th>Current Stock</th>
+          <th>Amount Requested</th>
+        </tr>
 
-    <table class="table-auto border-collapse">
-      <tr class="m-5">
-        <th>Product</th>
-        <th>Unit</th>
-        <th>Current Stock</th>
-        <th>Amount Requested</th>
-      </tr>
+        <tr v-for="product in products" :key="product">
+          <td class="text-center m-5">{{product}}</td>
+          <td class="text-center"> {{ units[products.indexOf(product)] }}</td>
+          <td><input class="text-center" type="number" v-model="current[products.indexOf(product)]"></td>
+          <td><input class="text-center" type="number" v-model="requested[products.indexOf(product)]"></td>
+        </tr>
+      </table>
 
-      <tr v-for="product in products" :key="product">
-        <td class="text-center m-5">{{product}}</td>
-        <td class="text-center"> {{ units[products.indexOf(product)] }}</td>
-        <!-- <td><input class="text-center" type="text" v-model="beforeGameCount[products.indexOf(product)]"></td>
-        <td><input class="text-center" type="text" v-model="transferInCount[products.indexOf(product)]"></td>
-        <td><input class="text-center" type="text" v-model="transferOutCount[products.indexOf(product)]"></td>
-        <td><input class="text-center" type="text" v-model="finalCount[products.indexOf(product)]"></td> -->
-        <td><input class="text-center" type="number" v-model="current[products.indexOf(product)]"></td>
-        <td><input class="text-center" type="number" v-model="requested[products.indexOf(product)]"></td>
-      </tr>
-    </table>
-    <button @click="sendItems(standName)">Submit</button>
+      <div class="flex justify-center">
+        <button class="mt-2 p-2 bg-green-500 rounded" @click="sendItems(standName)">Submit</button>
+      </div>
+    </div>
   </div>
 </template>
 

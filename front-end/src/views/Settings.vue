@@ -13,7 +13,7 @@
           <button v-if="isAdmin" @click="switchComponent('Request')">View Requests</button>
         </div>
       </div>
-      <div class="p-2 bg-gray-300">
+      <div class="p-4 bg-gray-300 ">
         <component :is="selectedComponent"></component>
       </div>
       <div v-if="isAdmin">

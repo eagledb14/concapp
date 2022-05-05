@@ -11,6 +11,8 @@
       <router-view/>
     </div>
 
+    <div class="m-10"></div>
+
   </div>
 </template>
 

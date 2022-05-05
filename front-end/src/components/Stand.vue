@@ -48,7 +48,9 @@ export default ({
   },
   watch: {
     selectedStand: function () {
-      this.getStandInfo()
+      if (this.standsList.length > 0) {
+        this.getStandInfo()
+      }
     }
   },
   created () {

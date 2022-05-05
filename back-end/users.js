@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     standsList: [String],
     admin: {
         type: Boolean,
-        default: false
+        default: true
     }
 })
 
@@ -197,9 +197,7 @@ router.post('/login', async (req, res) => {
 //update stands list
 router.post('/stands/:id', async (req, res) => {
     try {
-        const user = await User.findOne({
-            _id: req.params.id
-        })
+        const user = await User.findById(req.params.id)
 
         let list = req.body.standsList
         list.sort()

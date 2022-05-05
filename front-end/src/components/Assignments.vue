@@ -20,7 +20,7 @@
         </draggable>
     </div>
     <div class="flex justify-center">
-      <button class="mt-2 p-2 bg-green-500 rounded " @click="updateUserStands(); updateControlStands()">Update</button>
+      <button class="mt-2 p-2 bg-green-500 rounded" @click="updateUserStands(); updateControlStands()">Update</button>
     </div>
   </div>
 </template>

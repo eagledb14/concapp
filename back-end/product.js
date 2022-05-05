@@ -156,6 +156,7 @@ router.post('/info', async (req, res) => {
     }
     catch (e) {
         console.log(e)
+        res.sendStatus(500)
     }
 })
 
