@@ -1,6 +1,10 @@
 const express = require('express')
 const mongoose = require('mongoose')
 
+const fs = require('fs')
+const standsFileName = "./stands.json"
+let standsList = require(standsFileName)
+
 const router = express.Router()
 
 const productSchema = new mongoose.Schema({
@@ -118,6 +122,37 @@ router.post('/', async (req, res) => {
         else {
             res.sendStatus(201)
         }        
+    }
+    catch (e) {
+        console.log(e)
+    }
+})
+
+//get stand product and unit information from stand names
+router.post('/info', async (req, res) => {
+    if (req.body.list == null) {
+        res.send("Error, stand list empty")
+    }
+
+    let requestedInfo = req.body.list
+    let itemsOut = []
+    let unitOut = []
+
+    standsList = require(standsFileName)
+    // console.log(requestedList)
+
+    for (let j = 0; j < standsList.length; j++) {
+        if (standsList[j].name == requestedInfo) {
+            itemsOut = standsList[j].items
+            unitOut = standsList[j].units
+        }
+    }
+
+    try {
+        res.send({
+            items: itemsOut,
+            units: unitOut
+        })
     }
     catch (e) {
         console.log(e)

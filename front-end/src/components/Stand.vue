@@ -15,6 +15,7 @@
 
 <script>
 import Stock from '@/components/Stock.vue'
+import axios from 'axios'
 
 export default ({
   name: 'Stand',
@@ -27,11 +28,31 @@ export default ({
   data () {
     return {
       selectedStand: '',
-      productList: ['ham', 'cheese', 'onions'],
-      unitList: ['bib', 'bag', 'porple']
+      productList: [],
+      unitList: []
+    }
+  },
+  methods: {
+    async getStandInfo () {
+      try {
+        const response = await axios.post('api/product/info', {
+          list: this.selectedStand
+        })
+
+        this.productList = response.data.items
+        this.unitList = response.data.units
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  },
+  watch: {
+    selectedStand: function () {
+      this.getStandInfo()
     }
   },
   created () {
+    this.getStandInfo()
     if (this.standsList) {
       this.selectedStand = this.standsList[0]
     }

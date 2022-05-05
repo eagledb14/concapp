@@ -314,8 +314,17 @@ router.delete('/', validUser, async (req, res) => {
 router.get('/stand', async (req, res) => {
     try {
         standsList = require(standsFileName)
+
+        let standsOut = []
+
+        for (let i = 0; i < standsList.length; i++) {
+            if (standsList[i].available) {
+                standsOut.push(standsList[i].name)
+            }
+        }
+
         res.send({
-            stands: standsList.standsList            
+            stands: standsOut           
         })
     }
     catch (e)
@@ -367,9 +376,21 @@ router.get('/stand/:id', async (req, res) => {
 //update control stand list
 router.post('/stand/control', async (req, res) => {
     try {
-        standsList.standsList = req.body.standsList
-        standsList.standsList.sort()
-        await fs.writeFile(standsFileName, JSON.stringify(standsList), (e) => {
+        // standsList.standsList = req.body.standsList
+        // standsList.standsList.sort()
+
+        let updatedStand = req.body.standsList
+        standsList = require(standsFileName)
+        for (let i = 0; i < standsList.length; i++) {
+            if (updatedStand.includes(standsList[i].name)) {
+                standsList[i].available = true
+            }
+            else {
+                standsList[i].available = false
+            }
+        }
+
+        await fs.writeFile(standsFileName, JSON.stringify(standsList, null, 4), (e) => {
             if (e) {
                 console.log(e)
                 return
@@ -384,8 +405,6 @@ router.post('/stand/control', async (req, res) => {
         return res.sendStatus(500)
     }
 })
-
-
 
 
 //try and refactor later to have a better hierarchy and database functionality
