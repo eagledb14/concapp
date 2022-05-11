@@ -1,9 +1,9 @@
 <template>
   <div id="Request">
     <div class="flex flex-col justify-center items-center">
-      <form class="my-5" v-on:submit.prevent="uploadFile()">
+    <form class="my-5" v-on:submit.prevent="uploadFile()">
       <input type="file" name="standSheet" @change="fileChanged">
-      <button type="submit">Upload</button>
+      <button  class="my-2 p-2 bg-green-500 rounded" type="submit">Upload</button>
     </form>
 
       <select class="m-2 px-5" v-model="selectedStand">
