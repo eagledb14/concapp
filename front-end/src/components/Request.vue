@@ -63,11 +63,11 @@ export default ({
         formData.append('standSheet', this.file, this.file.name)
 
         const r1 = await axios.post('/api/create/file', formData)
-        console.log(r1.data.path)
-        const r2 = await axios.post('/api/create', {
+
+        await axios.post('/api/create', {
           path: r1.data.path
         })
-        console.log(r2)
+        // console.log(r2)
       } catch (e) {
         console.log(e)
       }
