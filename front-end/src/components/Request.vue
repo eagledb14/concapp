@@ -1,6 +1,11 @@
 <template>
   <div id="Request">
     <div class="flex flex-col justify-center items-center">
+      <form class="my-5" v-on:submit.prevent="uploadFile()">
+      <input type="file" name="standSheet" @change="fileChanged">
+      <button type="submit">Upload</button>
+    </form>
+
       <select class="m-2 px-5" v-model="selectedStand">
           <option v-for="stand in standNames" v-bind:key="stand">{{ stand }}</option>
       </select>
@@ -9,6 +14,10 @@
         <div v-if="stand.stand == selectedStand">
           <h2> User: {{stand.user}} </h2>
           <h2 class="mb-3"> Date: {{stand.date}} </h2>
+
+          <div class="flex justify-center">
+            <button class="my-2 p-2 bg-green-500 rounded" @click="confirmDelete()">Delete</button>
+          </div>
 
           <table class="table-auto border-collapse">
             <tr class="m-5">
@@ -28,12 +37,6 @@
           </table>
         </div>
       </div>
-
-    <form v-on:submit.prevent="uploadFile()">
-      <input type="file" name="standSheet" @change="fileChanged">
-      <button type="submit">Upload</button>
-    </form>
-
     </div>
   </div>
 </template>
@@ -74,8 +77,9 @@ export default ({
     },
     async getProducts () {
       try {
+        this.standList = []
+        this.standNames = []
         const response = await axios.get('/api/product/' + this.$root.$data.user.admin)
-        // console.log(response.data.products)
         this.standList = response.data.products
 
         for (const stand of this.standList) {
@@ -84,6 +88,19 @@ export default ({
       } catch (e) {
         console.log(e)
       }
+    },
+    async confirmDelete () {
+      if (confirm(`Do you want to delete: ${this.selectedStand}?`)) {
+        this.deleteProduct()
+      }
+    },
+    async deleteProduct () {
+      console.log(this.$root.$data.user)
+      await axios.put('/api/product/delete/' + this.selectedStand, {
+        admin: this.$root.$data.user
+      })
+
+      this.getProducts()
     }
   },
   created () {

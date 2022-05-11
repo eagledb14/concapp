@@ -1,7 +1,7 @@
 [
     {
         "name": "Miller Park - Main & BBQ",
-        "available": true,
+        "available": false,
         "items": [
             "Coca-Cola Syrup  (5gal bib)",
             "Diet Coke Syrup  (5gal bib)",
@@ -147,7 +147,7 @@
     },
     {
         "name": "MP-Tent",
-        "available": true,
+        "available": false,
         "items": [
             "Coca-Cola Syrup  (5gal bib)",
             "Diet Coke Syrup  (5gal bib)",

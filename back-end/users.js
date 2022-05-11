@@ -402,6 +402,15 @@ router.post('/stand/control', async (req, res) => {
     }
 })
 
+async function verifyAdmin(userId) {
+    const user = await User.findById(userId)
+
+    if (user) {
+        return user.admin
+    }
+    return false
+}
+
 
 //try and refactor later to have a better hierarchy and database functionality
 
@@ -409,5 +418,6 @@ router.post('/stand/control', async (req, res) => {
 module.exports = {
     routes: router,
     model: URLSearchParams,
-    valid: validUser
+    valid: validUser,
+    verifyAdmin
 }

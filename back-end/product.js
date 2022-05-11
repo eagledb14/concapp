@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 
+const users = require('./users.js')
+
 const fs = require('fs')
 const standsFileName = "./stands.json"
 let standsList = require(standsFileName)
@@ -179,6 +181,41 @@ router.get('/:admin', async (req, res) => {
 
     // console.log(products)
 })
+
+router.put('/delete/:stand', async (req, res) => {
+    if (!users.verifyAdmin(req.body.admin._id)) {
+        res.status(400).send("User is not allowed to perform this action")
+    }    
+
+    try {
+        standsList = require(standsFileName)
+
+        for (let i = 0; i < standsList.size; i++) {
+            if (standsList[i].name === req.params.stand) {
+                standsList.splice(i, 1)
+                break
+            }
+        }
+
+        await fs.writeFile(standsFileName, JSON.stringify(standsList, null, 4), (e) => {
+            if (e) {
+                console.log(e)
+                return
+            }
+            console.log(`StandsList updated`)
+        })
+
+        await Product.deleteOne({
+            stand: req.params.stand
+        })
+    }
+    catch(e) {
+        console.log(e)
+    }
+
+    console.log(`${req.params.stand} was deleted`)    
+    res.sendStatus(200)
+}) 
 
 module.exports = {
     routes: router,
