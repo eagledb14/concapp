@@ -147,7 +147,7 @@ router.post('/', async (req, res) => {
         })
     }
     catch(e) {
-        console.log(error)
+        console.log(e)
         res.sendStatus(500)
     }
 })
