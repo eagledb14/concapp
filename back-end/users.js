@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     standsList: [String],
     admin: {
         type: Boolean,
-        default: true
+        default: false
     }
 })
 
@@ -307,6 +307,105 @@ router.delete('/', validUser, async (req, res) => {
         return res.sendStatus(500)
     }
 })
+
+//---------- User settings
+
+//change username
+router.post('/username/:id', async (req, res) => {
+    if (req.params.id == null) {
+        return res.status(400).send({
+            message: "user id not sent"
+        })
+    }
+    else if (req.body.newUser == null || req.body.newUser == '') {
+        console.log(req.body.newUser)
+        return res.status(400).send({
+            message: "missing new username"
+        })
+    }
+
+    try {
+        const existingUser = await User.findOne({
+            username: req.body.newUser
+        })
+
+        if (existingUser) {
+            return res.status(403).send({
+                message: "username already taken"
+            })
+        }
+
+        console.log(req.body.newUser)
+
+        const user = await User.findById(req.params.id);
+
+        await user.updateOne({
+            username: req.body.newUser
+        })
+
+        await user.save()
+
+        return res.sendStatus(200)
+    }
+    catch (e) {
+        console.log(e)
+        return res.sendStatus(500)
+    }
+})
+
+//change password
+router.post('/password/:id', async (req, res) => {
+    if (req.params.id == null) {
+        return res.status(400).send({
+            message: "invalid user id"
+        })
+    }
+    else if (req.body.newUser == null || req.body.newUser == '') {
+        console.log(req.body.newUser)
+        return res.status(400).send({
+            message: "missing new password"
+        })
+    }
+
+    try {
+       
+        return res.sednStatus(200)
+    }
+    catch (e) {
+        console.log(e)
+        return res.sendStatus(500)
+    }
+
+})
+
+//delete account
+
+router.post('/delete/:id', async (req, res) => {
+    try {
+        const existingUser = await User.findOne({
+            username: req.body.newUser
+        })
+    
+        if (!existingUser) {
+            console.log("user exists")
+            return res.status(403).send({
+                message: "user does not exist"
+            })
+        }
+        
+        await User.deleteById(req.params.id)
+
+        console.log(`User: ${existingUser.username} was deleted`)
+        return res.sendStatus(200)
+    }
+    catch (e) {
+        console.log(e)
+        return res.sendStatus(500)
+    }
+})
+
+
+//---------------
 
 //get stands list
 router.get('/stand', async (req, res) => {
