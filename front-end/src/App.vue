@@ -24,6 +24,11 @@ export default {
     user () {
       return this.$root.$data.user
     }
+  },
+  created () {
+    if (this.$root.$data.user == null && this.$route.name !== 'Home') {
+      this.$router.push('/')
+    }
   }
 }
 </script>

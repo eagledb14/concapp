@@ -380,11 +380,10 @@ router.post('/password/:id', async (req, res) => {
 
 //delete account
 
-router.post('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
+    console.log('received the thing')
     try {
-        const existingUser = await User.findOne({
-            username: req.body.newUser
-        })
+        const existingUser = await User.findById(req.params.id)
     
         if (!existingUser) {
             console.log("user exists")
@@ -393,7 +392,10 @@ router.post('/delete/:id', async (req, res) => {
             })
         }
         
-        await User.deleteById(req.params.id)
+        // await User.deleteById(req.params.id)
+        await User.deleteOne({
+            _id: req.params.id
+        })
 
         console.log(`User: ${existingUser.username} was deleted`)
         return res.sendStatus(200)

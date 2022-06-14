@@ -45,8 +45,10 @@ export default {
     }
   },
   methods: {
-    changeUser () {
-      if (confirm('Are you sure you want to change your username?')) {
+    async changeUser () {
+      if (this.newUser === '') {
+        alert('Error: new username is blank')
+      } else if (confirm('Are you sure you want to change your username?')) {
         try {
           axios.post('/api/users/username/' + this.$root.$data.user._id, {
             newUser: this.newUser
@@ -56,18 +58,24 @@ export default {
         }
       }
     },
-    changePassword () {
-      if (this.oldPass === this.newPass && confirm('Are you sure you want to change you password?')) {
+    async changePassword () {
+      if (this.newPass === '') {
+        alert('Error: New Password is blank')
+      } else if (this.oldPass === this.newPass && confirm('Are you sure you want to change you password?')) {
         try {
-
         } catch (e) {
           console.log(e)
         }
+      } else {
+        alert('Error: Passwords do not match')
       }
     },
-    deleteAccount () {
+    async deleteAccount () {
       try {
-        axios.delete('/api/users/delete/' + this.$root.$data.user._id)
+        if (confirm('Are you sure you want to delete your account?')) {
+          axios.delete('/api/users/delete/' + this.$root.$data.user._id)
+          location.reload()
+        }
       } catch (e) {
         console.log(e)
       }
