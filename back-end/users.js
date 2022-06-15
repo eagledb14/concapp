@@ -360,16 +360,32 @@ router.post('/password/:id', async (req, res) => {
             message: "invalid user id"
         })
     }
-    else if (req.body.newUser == null || req.body.newUser == '') {
-        console.log(req.body.newUser)
+    else if (req.body.newPass == null || req.body.newPass == '') {
         return res.status(400).send({
             message: "missing new password"
         })
     }
 
     try {
+        const existingUser = await User.findById(req.params.id)
+
+        console.log(existingUser)
+        if (!existingUser) {
+            return res.status(403).send({
+                message: "user does not exist"
+            })
+        }
+
+        const hash = await argon2.hash(req.body.newPass)
+        
+        await existingUser.updateOne({
+            password: hash
+        })
+
+        await existingUser.save()
+        console.log(`user ${existingUser.username} changed their password`)
        
-        return res.sednStatus(200)
+        return res.sendStatus(200)
     }
     catch (e) {
         console.log(e)

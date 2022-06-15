@@ -50,19 +50,29 @@ export default {
         alert('Error: new username is blank')
       } else if (confirm('Are you sure you want to change your username?')) {
         try {
-          axios.post('/api/users/username/' + this.$root.$data.user._id, {
+          await axios.post('/api/users/username/' + this.$root.$data.user._id, {
             newUser: this.newUser
           })
+          // location.reload()
         } catch (e) {
           console.log(e)
         }
       }
     },
     async changePassword () {
+      // console.log(`${this.newPass}   ${this.checkPass}`)
       if (this.newPass === '') {
         alert('Error: New Password is blank')
-      } else if (this.oldPass === this.newPass && confirm('Are you sure you want to change you password?')) {
+      } else if (this.newPass === this.checkPass) {
+        if (!confirm('Are you sure you want to change your password?')) {
+          return
+        }
+
         try {
+          await axios.post('/api/users/password/' + this.$root.$data.user._id, {
+            newPass: this.newPass
+          })
+          // location.reload()
         } catch (e) {
           console.log(e)
         }
@@ -73,7 +83,7 @@ export default {
     async deleteAccount () {
       try {
         if (confirm('Are you sure you want to delete your account?')) {
-          axios.delete('/api/users/delete/' + this.$root.$data.user._id)
+          await axios.delete('/api/users/delete/' + this.$root.$data.user._id)
           location.reload()
         }
       } catch (e) {
